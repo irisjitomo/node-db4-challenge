@@ -7,7 +7,19 @@ module.exports = {
     useNullAsDefault: true,
     connection: {
       filename: './dev.sqlite3'
-    }
+    },
+    migrations: {
+      directory: './migrations',
+    },
+    seeds: {
+      directory: './seeds',
+    },
+    pool: {
+      afterCreate: (conn, done) => {
+        // enforces foreign key constraints on SQLite, not needed for other DBMS
+        conn.run('PRAGMA foreign_keys = ON', done);
+      },
+    },
   },
 
   staging: {
